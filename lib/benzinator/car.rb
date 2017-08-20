@@ -1,24 +1,29 @@
 require 'faraday'
 require 'json'
 
-API_URL = "http://www.bensbenzes.com/api/v1/cars/active"
+API_URL = "https://trailapi-trailapi.p.mashape.com/"
 
 module Benzinator
   class Car
-    attr_reader :id, :make, :model, :year, :color, :vin, :dealer_id
+    attr_reader :city, :state, :country, :name, :unique_id, :directions, :lat, :lon, :description, :date_created, :children, :activities
 
     def initialize(attributes)
-      @id = attributes["id"]
-      @make = attributes["make"]
-      @model = attributes["model"]
-      @year = attributes["year"]
-      @color = attributes["color"]
-      @vin = attributes["vin"]
-      @dealer_id = attributes["dealer_id"]
+      @city = attributes["city"]
+      @state = attributes["state"]
+      @country = attributes["country"]
+      @name = attributes["name"]
+      @unique_id = attributes["unique_id"]
+      @directions = attributes["directions"]
+      @lat = attributes["lat"]
+      @lon = attributes["lon"]
+      @description = attributes["description"]
+      @date_created = attributes["date_created"]
+      @children = attributes["children"]
+      @activities = attributes["activities"]
     end
 
-    def self.find(id)
-      response = Faraday.get("#{API_URL}/#{id}")
+    def self.find(city)
+      response = Faraday.get("#{API_URL}/#{city}")
       attributes = JSON.parse(response.body)
       new(attributes)
     end
